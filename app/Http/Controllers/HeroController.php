@@ -68,10 +68,16 @@ class HeroController extends Controller
             'story'     => 'required',
             'roles'     => 'required|array',
             'positions' => 'required|array',
-            'items'     => 'required|array|max:6',
+            'items'     => 'required|array',
         ]);
 
-        $photoPath = $request->file('photo')->store('heroes', 'public');
+        // Store uploaded photo safely into storage/app/public/heroes
+        $photoPath = null;
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+            $file = $request->file('photo');
+            $filename = uniqid('hero_') . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $photoPath = $file->storeAs('heroes', $filename, 'public');
+        }
 
         $hero = Hero::create([
             'name'   => $request->name,
@@ -117,14 +123,20 @@ class HeroController extends Controller
             'story'     => 'required',
             'roles'     => 'required|array',
             'positions' => 'required|array',
-            'items'     => 'required|array|max:6',
+            'items'     => 'required|array',
         ]);
 
         if ($request->hasFile('photo')) {
             if ($hero->photo) {
                 Storage::disk('public')->delete($hero->photo);
             }
-            $photoPath = $request->file('photo')->store('heroes', 'public');
+            $file = $request->file('photo');
+            if ($file->isValid()) {
+                $filename = uniqid('hero_') . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $photoPath = $file->storeAs('heroes', $filename, 'public');
+            } else {
+                $photoPath = $hero->photo;
+            }
         } else {
             $photoPath = $hero->photo;
         }

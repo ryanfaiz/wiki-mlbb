@@ -190,8 +190,10 @@
             <div class="card mb-5">
                 <div class="card-header py-4 px-4 border-bottom d-flex justify-content-between align-items-center">
                     <h4 class="m-0">Edit Hero: {{ $hero->name }}</h4>
-                    @if($hero->photo)
+                    @if($hero->photo && !is_numeric($hero->photo))
                         <img src="{{ asset('storage/' . $hero->photo) }}" class="rounded-circle" width="50" height="50" style="object-fit:cover; border: 2px solid #ca8a04;">
+                    @else
+                        <img src="{{ asset('images/no-photo.png') }}" class="rounded-circle" width="50" height="50" style="object-fit:cover; border: 2px solid #ca8a04;">
                     @endif
                 </div>
                 <div class="card-body p-4 p-md-5">

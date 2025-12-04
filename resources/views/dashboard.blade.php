@@ -67,7 +67,7 @@
                     @endauth
 
                     <a href="{{ route('heroes.show', $hero->id) }}" class="block relative h-64 w-full bg-gray-200 dark:bg-gray-800">
-                        @if($hero->photo)
+                        @if($hero->photo && !is_numeric($hero->photo))
                             <img src="{{ asset('storage/' . $hero->photo) }}">
                         @else
                             <div class="flex items-center justify-center h-full text-gray-400 dark:text-gray-500">No Photo</div>

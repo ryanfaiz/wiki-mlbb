@@ -53,9 +53,15 @@
                         <div class="md:w-1/3 mb-6 md:mb-0">
                             <div class="sticky top-4">
                                 <div class="bg-gradient-to-b from-yellow-300 via-yellow-400 to-yellow-600 p-1.5 rounded-lg shadow-xl w-56 mx-auto">
-                                    <img src="{{ asset('storage/' . $hero->photo) }}" 
-                                        class="w-full h-80 object-cover object-top rounded border-2 border-yellow-200" 
-                                        alt="{{ $hero->name }}">
+                                    @if($hero->photo && !is_numeric($hero->photo))
+                                        <img src="{{ asset('storage/' . $hero->photo) }}" 
+                                            class="w-full h-80 object-cover object-top rounded border-2 border-yellow-200" 
+                                            alt="{{ $hero->name }}">
+                                    @else
+                                        <img src="{{ asset('images/no-photo.png') }}" 
+                                            class="w-full h-80 object-cover object-top rounded border-2 border-yellow-200" 
+                                            alt="No Photo">
+                                    @endif
                                     <div class="bg-yellow-700 text-white text-center py-1.5 font-bold uppercase tracking-widest text-xs rounded-b shadow-inner border-t border-yellow-600">
                                         {{ $hero->name }}
                                     </div>
